@@ -1,0 +1,196 @@
+#include<iostream>
+#include<windows.h>
+#include<time.h>
+#include<conio.h>
+using namespace std;// 刷新当前屏幕
+  
+inline void Refresh(char q[][22], intgrade, int length)
+{
+         system("cls");     //  清屏
+         inti,j;
+         cout<< endl;
+         for(i=0;i<22;i++)
+         {
+                   cout<< "\t";
+                  for(j=0;j<22;j++)
+                            cout<<q[i][j]<<'';    // 输出贪吃蛇棋盘
+                   if(i==0)cout << "\t等级为：" << grade;
+                   if(i==2)cout<<"\t操作方法:";
+                   if(i==4)cout<<"↑向上↓向下←向左→向右";
+                   if(i==6)cout << "\t当前得分为：" << length*10-40 ;
+                   if(i==8)
+                   {
+                            if(grade>=1&&grade<=4)
+                            {
+                                     cout<<"现在是初级水平哦！加油！";
+                            }
+                            if(grade>=5&&grade<=7)
+                            {
+                                     cout<<"不错嘛，不过只是一般。。。";
+                            }
+                            if(grade>=8&&grade<=9)
+                            {
+                                     cout<<"高手呀！已经很强了！";
+                            }
+                            if(grade>9)
+                            {
+                                     cout<<"牛x！！！";
+                            }
+                            
+                   }
+                   cout<<endl;
+         }
+}
+int main()
+{
+         chartcsQipan[22][22];     //  贪吃蛇棋盘是一个二维数组(如22*22，包括墙壁)
+         inti,j;
+         for(i=1;i<=20;i++)
+                   for(j=1;j<=20;j++)
+                            tcsQipan[i][j]='';     //     初始化贪吃蛇棋盘中间空白部分
+         for(i=0;i<=21;i++)
+                   tcsQipan[0][i]= tcsQipan[21][i] = '-';      //初始化贪吃蛇棋盘上下墙壁
+         for(i=1;i<=20;i++)
+                   tcsQipan[i][0]= tcsQipan[i][21] = '|';      //初始化贪吃蛇棋盘左右墙壁
+         inttcsZuobiao[2][100];     //蛇的坐标数组
+         for(i=0;i<4; i++)
+         {
+                   tcsZuobiao[0][i]= 1;
+                   tcsZuobiao[1][i]= i + 1;
+         }
+         inthead = 3,tail = 0;
+         for(i=1;i<=3;i++)
+                   tcsQipan[1][i]='*';    //蛇身
+         tcsQipan[1][4]='@';       //蛇头
+         intx1, y1;           // 随机出米
+         srand(time(0));
+         do
+         {
+                   x1=rand()%20+1;
+                   y1=rand()%20+1;
+         }
+         while(tcsQipan[x1][y1]!='');
+         tcsQipan[x1][y1]='*';
+         cout<<"\n\n\t\t贪吃蛇游戏即将开始!"<<endl;//准备开始;;
+         longstart;
+         intgrade = 1, length = 4,a;
+         intgamespeed = 500;  //前进时间间隔
+         for(i=3;i>=0;i--)
+         {
+                   start=clock();
+                   while(clock()-start<=1000);
+                   system("cls");
+                   if(i>0)
+                            cout<< "\n\n\t\t进入倒计时：" << i << endl;
+                   else
+                            Refresh(tcsQipan,grade,length);
+         }
+         inttimeover;
+         chardirection = 77;  // 初始情况下，向右运动
+         intx,y;
+         while(1)
+         {
+                   timeover= 1;
+                   start= clock();
+                   while((timeover=(clock()-start<=gamespeed))&&!kbhit());
+                   //如果有键按下或时间超过自动前进时间间隔则终止循环
+                   if(timeover)
+                   {
+                            getch();direction= getch();
+                   }
+                   switch(direction)
+                   {
+                   case72: x= tcsZuobiao[0][head]-1; y= tcsZuobiao[1][head];break;     // 向上
+                   case80: x= tcsZuobiao[0][head]+1; y= tcsZuobiao[1][head];break;      // 向下
+                   case75: x= tcsZuobiao[0][head]; y= tcsZuobiao[1][head]-1;break;      // 向左
+                   case77: x= tcsZuobiao[0][head]; y= tcsZuobiao[1][head]+1;           // 向右
+                   }
+                   if(!(direction==72||direction==80||direction==75||direction==77))//  按键非方向键
+                   {  
+                            cout<< "\tGame over!    最后得分："<< length*10-40<<endl;
+                            return0;
+                   }
+                   if(x==0|| x==21 ||y==0 || y==21) // 碰到墙壁
+                   { 
+                            cout<< "\tGame over!    最后得分："<<length*10-40 <<endl;return 0;
+                   }
+                   if(tcsQipan[x][y]!=''&&!(x==x1&&y==y1))//   蛇头碰到蛇身
+                   {
+                            cout<< "\tGame over!   最后得分："<< length*10-40<<endl;return 0;
+                   }
+                   if(x==x1&& y==y1)//  吃米，长度加1
+                   {     
+                            length++;
+                            if(length<=22&&length>=14)
+                            {
+                                     grade=2;
+                                     gamespeed= 450; // 改变自动前进时间间隔
+                            }
+                            if(length>=23&&length<=31)
+                            {
+                                     grade=3;
+                                gamespeed=380;
+                            }
+                            if(length>=32&&length<=38)
+                            {
+                                     grade=4;
+                                     gamespeed=330;
+                            }
+                            if(length>=39&&length<=44)
+                            {
+                                     grade=5;
+                                     gamespeed=250;
+                            }
+                            if(length>=45&&length<=50)
+                            {
+                                     grade=6;
+                                     gamespeed=200;
+                            }
+                            if(length>=51&&length<=55)
+                            {
+                                     grade=7;
+                                     gamespeed=150;
+                            }
+                            if(length>=56&&length<=60)
+                            {
+                                     grade=8;
+                                     gamespeed=100;
+                            }
+                            if(length>=61&&length<=64)
+                            {
+                                     grade=9;
+                                     gamespeed=80;
+                            }
+                            if(length>=65)
+                            {
+                                     grade=10;
+                                     gamespeed=50;
+                            }
+                            tcsQipan[x][y]='@';
+                            tcsQipan[tcsZuobiao[0][head]][tcsZuobiao[1][head]]= '*';
+                            head= (head+1)%100;
+                            tcsZuobiao[0][head]= x;
+                            tcsZuobiao[1][head]= y;
+                            do
+                            {
+                                     x1=rand()%20+1;
+                                     y1=rand()%20+1;
+                            }
+                            while(tcsQipan[x1][y1]!='');
+                            tcsQipan[x1][y1]='*';
+                            Refresh(tcsQipan,grade,length);
+                   }
+                   else
+                   {       // 不吃米
+                            tcsQipan[tcsZuobiao[0][tail]][tcsZuobiao[1][tail]]=' ';
+                            tail=(tail+1)%100;
+                            tcsQipan[tcsZuobiao[0][head]][tcsZuobiao[1][head]]='*';
+                            head=(head+1)%100;
+                            tcsZuobiao[0][head]=x;
+                            tcsZuobiao[1][head]=y;
+                            tcsQipan[tcsZuobiao[0][head]][tcsZuobiao[1][head]]='@';
+                            Refresh(tcsQipan,grade,length);
+                   }
+         }
+         return0;
+}
