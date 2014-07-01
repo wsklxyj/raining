@@ -1,0 +1,182 @@
+#include <stdio.h>  
+#include <stdlib.h>
+struct node 
+{
+ int num;
+ char name[20];
+ int a;
+ int b;
+ int c;
+};
+node stu[10]={ 
+{2004101,"张大志",89,67,90}, 
+{2004102,"杨小敏",65,80,56}, 
+{2004103,"李兵兵",76,66,71}, 
+{2004104,"周星华",60,76,88}, 
+{2004105,"王小青",82,90,78}, 
+{2004106,"陈江海",70,81,93}, 
+{2004107,"刘慧姗",85,60,76}, 
+{2004108,"张真真",80,76,61}, 
+{2004109,"林华强",70,66,98}, 
+{2004110,"郭云风",62,60,87}, 
+}; 
+ 
+int n=10,suma,sumb,sumc;
+
+void sort_a() 
+{
+ int i,j;
+ node temp;
+ for(i=0;i<n-1;i++) 
+ {
+  for(j=0;j<n-1-i;j++) 
+  {
+   if(stu[j].a<stu[j+1].a)
+   {
+    temp=stu[j];
+    stu[j]=stu[j+1];
+    stu[j+1]=temp;
+   } 
+  }
+ }
+} 
+
+void sort_b() 
+{
+ int i,j;
+ node temp;
+ for(i=0;i<n-1;i++) 
+ {
+  for(j=0;j<n-1-i;j++) 
+  {
+   if(stu[j].b<stu[j+1].b)
+   {
+    temp=stu[j];
+    stu[j]=stu[j+1];
+    stu[j+1]=temp;
+   } 
+  }
+ }
+} 
+
+void sort_c() 
+{
+ int i,j;
+ node temp;
+ for(i=0;i<n-1;i++) 
+ {
+  for(j=0;j<n-1-i;j++) 
+  {
+   if(stu[j].c<stu[j+1].c)
+   {
+    temp=stu[j];
+    stu[j]=stu[j+1];
+    stu[j+1]=temp;
+   } 
+  }
+ }
+} 
+
+void sort()
+{
+ int mode;
+ printf("请选择按哪科排序:1.语文 2.数学 3.英语 \n");
+ scanf("%d",&mode);
+ if(mode==1) 
+  sort_a();
+ else if(mode==2) 
+  sort_b();
+ else if(mode==3)
+  sort_c();
+ else 
+  printf("输入有错误!\n");
+}
+void output() 
+{
+ int i; 
+ printf("学号\t姓名\t语文\t数学\t英语\t平均分\n"); 
+ for(i=0;i<n;i++) 
+ {
+  printf("%d\t",stu[i].num); 
+  printf("%s\t",stu[i].name); 
+  printf("%d\t",stu[i].a); 
+  printf("%d\t",stu[i].b); 
+  printf("%d\t",stu[i].c); 
+  printf("\n");
+ }
+}  
+
+void fmax() 
+{
+ int i,maxa,maxb,maxc;
+ maxa=stu[0].a;suma=stu[0].a;
+ maxb=stu[0].b;sumb=stu[0].b;
+ maxc=stu[0].c;sumc=stu[0].c;
+ for(i=1;i<10;i++)
+ {
+  if(stu[i].a>maxa) maxa=stu[i].a;
+  if(stu[i].a>maxb) maxb=stu[i].b;
+  if(stu[i].a>maxc) maxc=stu[i].c;
+  suma+=stu[i].a;
+  sumb+=stu[i].b;
+  sumc+=stu[i].c;
+ }
+ printf("每门科目的最高分分别为:%d\t%d\t%d\n",maxa,maxb,maxc);
+} 
+
+void fmin() 
+{
+ int i;
+ int mina,minb,minc;
+ mina=stu[0].a;
+ minb=stu[0].b;
+ minc=stu[0].c;
+ for(i=1;i<10;i++)
+ {
+  if(stu[i].a<mina) mina=stu[i].a;
+  if(stu[i].a<minb) minb=stu[i].b;
+  if(stu[i].a<minc) minc=stu[i].c;
+ }
+ printf("每门科目的最低分分别为:%d\t%d\t%d\n",mina,minb,minc);
+} 
+
+void fave() 
+{
+ float fa,fb,fc;
+ fa=suma*1.0/n;
+ fb=sumb*1.0/n;
+ fc=sumc*1.0/n;
+ printf("每门科目的平均分分别为:%.2f\t%.2f\t%.2f\n",fa,fb,fc);
+} 
+
+void main() 
+{
+ int chos;
+ while(1)
+ {
+  printf("***************************************************\n");
+  printf("1.使用一种排序算法对上述某门科目的成绩进行排序\n");
+  printf("2.将排序后的成绩，以每个学生记录的形式显示输出\n");
+  printf("3.求出每门科目的最高分、最低分和平均分的信息\n");
+  printf("0.退出程序\n");
+  printf("请选择\n");
+        printf("***************************************************\n");
+  scanf("%d",&chos);
+  switch(chos)
+  {
+  case 1:
+   sort();
+   break;
+  case 2:
+   output();
+   break;
+  case 3:
+   fmax();
+   fmin();
+   fave();
+   break;
+  case 0:
+   exit(0);
+  }
+ }
+}
